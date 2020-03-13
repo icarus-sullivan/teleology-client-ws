@@ -1,6 +1,6 @@
 {
   "name": "@teleology/client-ws",
-  "version": "1.0.5",
+  "version": "1.0.0",
   "description": "Client Websocket implementation for @teleology/lambda-ws",
   "main": "lib/index.js",
   "files": [

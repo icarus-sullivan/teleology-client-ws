@@ -1,0 +1,46 @@
+{
+  "name": "@teleology/client-ws",
+  "version": "1.0.5",
+  "description": "Client Websocket implementation for @teleology/lambda-ws",
+  "main": "lib/index.js",
+  "files": [
+    "lib/*"
+  ],
+  "scripts": {
+    "prepare": "npx babel src --out-dir lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icarus-sullivan/teleology-client-ws.git"
+  },
+  "keywords": [
+    "teleology",
+    "client",
+    "websocket",
+    "ws"
+  ],
+  "author": "Chris Sullivan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/icarus-sullivan/teleology-client-ws/issues"
+  },
+  "homepage": "https://github.com/icarus-sullivan/teleology-client-ws#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.2",
+    "@babel/plugin-transform-async-to-generator": "^7.8.3",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/runtime": "^7.8.3",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2"
+  }
+}

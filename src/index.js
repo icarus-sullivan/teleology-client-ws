@@ -29,22 +29,8 @@ export default ({ url, heartbeat = DEFAULT_HEARTBEAT, retry = true }) => {
   const start = () => {
     try {
       client = new WebSocket(url);
-      client.onopen = () => {
-        evt.emit('connected', client);
-
-        startKeepAlive(client);
-      };
-      client.onclose = (reasons) => {
-        evt.emit('closed', reasons);
-
-        clearKeepAlive();
-        client = undefined;
-
-        // retry when client is closed
-        if (retry) {
-          start();
-        }
-      };
+      client.onopen = () => evt.emit('connected', client);
+      client.onclose = (reasons) => evt.emit('closed', reasons);
       client.onmessage = ({ data }) => {
         try {
           const { type, payload } = JSON.parse(data);
@@ -58,6 +44,20 @@ export default ({ url, heartbeat = DEFAULT_HEARTBEAT, retry = true }) => {
       onerror(e);
     }
   };
+
+  // Use internal connected event -- startKeepAlive
+  evt.on('connected', startKeepAlive);
+
+  // Listen for error, clear and try to restart
+  evt.on('error', () => {
+    clearKeepAlive();
+    client = undefined;
+
+    // retry when client is closed
+    if (retry) {
+      start();
+    }
+  });
 
   // wait a bit before starting the client
   setTimeout(() => {

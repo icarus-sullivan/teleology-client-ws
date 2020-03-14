@@ -7,6 +7,8 @@ import './style.css';
 
 const client = ws({
   url: 'wss://hrix6cnamf.execute-api.us-east-1.amazonaws.com/dev',
+  heartbeat: 5 * 60 * 1000,
+  retry: true,
 });
 
 const Render = () => {

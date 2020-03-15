@@ -3,6 +3,8 @@ import simpleEvents from './events';
 const OPEN_STATE = 1;
 const DEFAULT_HEARTBEAT = 60 * 1000; // 60 seconds
 
+const NON_SUBSCRIPTION_EVENTS = ['connected', 'closed', 'error'];
+
 export default ({ url, heartbeat = DEFAULT_HEARTBEAT, retry = true }) => {
   let client;
   let keepalive;
@@ -64,6 +66,26 @@ export default ({ url, heartbeat = DEFAULT_HEARTBEAT, retry = true }) => {
     start();
   }, 1000);
 
+  const off = (event, fn) => {
+    evt.off(event, fn);
+    if (!NON_SUBSCRIPTION_EVENTS.includes(event)) {
+      send({
+        op: 'unsubscribe',
+        type: event,
+      });
+    }
+  };
+
+  const on = (event, fn) => {
+    evt.on(event, fn);
+    if (!NON_SUBSCRIPTION_EVENTS.includes(event)) {
+      send({
+        op: 'subscribe',
+        type: event,
+      });
+    }
+  };
+
   return {
     close: () => {
       if (client) {
@@ -71,24 +93,17 @@ export default ({ url, heartbeat = DEFAULT_HEARTBEAT, retry = true }) => {
       }
     },
     subscribe: (event, fn) => {
-      evt.on(event, fn);
-      send({
-        op: 'subscribe',
-        type: event,
-      });
-    },
-    unsubscribe: (event, fn) => {
-      evt.off(event, fn);
-      send({
-        op: 'unsubscribe',
-        type: event,
-      });
+      on(event, fn);
+      return () => off(event, fn);
     },
     emit: (event, message) =>
       send({
         type: event,
         payload: message,
       }),
-    on: evt.on.bind(evt),
+    send,
+    ping,
+    off,
+    on,
   };
 };

@@ -15,7 +15,26 @@ yarn add @teleology/client-ws
 
 # Usage
 
-// TODO
+```javascript
+import ws from '@teleology/client-ws';
+
+const client = ws({
+  url: 'wss://hrix6cnamf.execute-api.us-east-1.amazonaws.com/dev',
+  heartbeat: 5 * 60 * 1000,
+});
+
+// Websocket Events
+client.on('connected', (WebsocketClient) => {});
+client.on('error', () => {});
+client.on('closed', () => {});
+
+// Subscription
+const unsub = client.subscribe('some_event', (payload) => {});
+
+
+// Emit
+client.emit('other_event', 'data');
+```
  
 ## Changelog
 

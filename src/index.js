@@ -2,7 +2,6 @@ import simpleEvents from './events';
 
 const OPEN_STATE = 1;
 const DEFAULT_HEARTBEAT = 60 * 1000; // 60 seconds
-
 const NON_SUBSCRIPTION_EVENTS = ['connected', 'closed', 'error'];
 
 export default ({ url, heartbeat = DEFAULT_HEARTBEAT, retry = true }) => {
@@ -101,8 +100,6 @@ export default ({ url, heartbeat = DEFAULT_HEARTBEAT, retry = true }) => {
         type: event,
         payload: message,
       }),
-    send,
-    ping,
     off,
     on,
   };
